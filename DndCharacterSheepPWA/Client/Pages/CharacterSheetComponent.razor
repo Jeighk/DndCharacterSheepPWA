@@ -15,35 +15,35 @@
 <button @onclick="() => { Save_Click();}">Save</button>
 <button @onclick="() => { Load_Click();}">Load</button>
 <div>Name</div>
-<input @ref=CName            readonly=@IsClean @bind-value="@Character.Name"/>
+<input readonly=@IsClean @bind-value="@Character.Name"/>
 <div>Level</div>
-<textarea @ref=CLevel        readonly=@IsClean>@Character.Level</textarea>
+<input  readonly=@IsClean @bind-value="@Character.Level"/>       
 <div>MaxHitPoints</div>
-<textarea @ref=CMaxHitPoints readonly=@IsClean>@Character.MaxHitPoints</textarea>
+<input readonly=@IsClean @bind-value="@Character.MaxHitPoints"/>
 <div>Strength</div>
-<textarea @ref=CStrength     readonly=@IsClean>@Character.Strength</textarea>
+<input readonly=@IsClean @bind-value="@Character.Strength"/>    
 <div>Dexterity</div>
-<textarea @ref=CDexterity    readonly=@IsClean>@Character.Dexterity</textarea>
+<input    readonly=@IsClean @bind-value="@Character.Dexterity"/>   
 <div>Constituion</div>
-<textarea @ref=CConstituion  readonly=@IsClean>@Character.Constituion</textarea>
+<input  readonly=@IsClean @bind-value="@Character.Constituion"/> 
 <div>Intelligence</div>
-<textarea @ref=CIntelligence readonly=@IsClean>@Character.Intelligence</textarea>
+<input readonly=@IsClean @bind-value="@Character.Intelligence"/>
 <div>Wisdom</div>
-<textarea @ref=CWisdom       readonly=@IsClean>@Character.Wisdom</textarea>
+<input       readonly=@IsClean @bind-value="@Character.Wisdom"/>      
 <div>Charisma</div>            
-<textarea @ref=CCharisma     readonly=@IsClean>@Character.Charisma</textarea>
+<input     readonly=@IsClean @bind-value="@Character.Charisma"/>    
 <div>Alignment</div>           
-<input @ref=CAlignment  value="@Character.Alignment"  readonly=@IsClean />
+<input    readonly=@IsClean @bind-value="@Character.Alignment"/>   
 <div>Class</div>               
-<textarea @ref=CClass        readonly=@IsClean>@Character.Class</textarea>
+<input        readonly=@IsClean @bind-value="@Character.Class"/>       
 <div>Race</div>                
-<textarea @ref=CRace         readonly=@IsClean>@Character.Race</textarea>
+<input         readonly=@IsClean @bind-value="@Character.Race"/>       
 <div>Background</div>          
-<textarea @ref=CBackground   readonly=@IsClean>@Character.Background</textarea>
+<input   readonly=@IsClean @bind-value="@Character.Background"/>  
 <div>Gold</div>                
-<textarea @ref=CGold         readonly=@IsClean>@Character.Gold</textarea>
+<input         readonly=@IsClean @bind-value="@Character.Gold"/>       
 <div>Speed</div>               
-<textarea @ref=CSpeed        readonly=@IsClean>@Character.Speed</textarea>
+<input        readonly=@IsClean @bind-value="@Character.Speed"/>      
 
 @code {
     [Parameter]
@@ -53,21 +53,6 @@
     private CharacterModel? _character { get; set; }
     public CharacterModel Character { get; set; }
     public List<CharacterModel> Characters { get; set; }
-    ElementReference CName         ;
-    ElementReference CLevel        ;
-    ElementReference CMaxHitPoints ;
-    ElementReference CStrength     ;
-    ElementReference CDexterity    ;
-    ElementReference CConstituion  ;
-    ElementReference CIntelligence ;
-    ElementReference CWisdom       ;
-    ElementReference CCharisma     ;
-    ElementReference CAlignment    ;
-    ElementReference CClass        ;
-    ElementReference CRace         ;
-    ElementReference CBackground   ;
-    ElementReference CGold         ;
-    ElementReference CSpeed        ;
     protected async override Task OnInitializedAsync()
     {
         if (Id == 0)
