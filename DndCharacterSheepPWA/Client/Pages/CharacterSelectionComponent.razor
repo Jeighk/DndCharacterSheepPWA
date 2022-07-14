@@ -1,0 +1,60 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@page "/CharacterSelection"
+@inject ICharacterSelection CharacterSelectionService
+@inject NavigationManager NavigationManager
+<PageTitle>CharacterSelection</PageTitle>
+
+<h3>Character Selection</h3>
+<button @onclick="() => { NewCharacter_Click();}"> 
+    New Character
+</button>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var character in CharacterSelectionService.Characters)
+        {
+            string colorClass= (character == SelectedCharacter) ? "MyHighlightClass" : "";
+            <tr class="@colorClass" style="color:navy; cursor:pointer; text-decoration:underline" 
+                    @onclick="() => { CharacterRow_Click(character); SelectedCharacter = character; }" 
+                    @ondblclick="() => { CharacterRow_DblClick(character); SelectedCharacter = character; }">
+                <td>@character.Name</td>
+                <td>@character.Level</td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+@if (SelectedCharacter.Id != 0)
+{
+    <h3>Selected character #@SelectedCharacter.Id (@SelectedCharacter.Name) </h3>
+}
+@code {
+    public CharacterModel SelectedCharacter { get; set; } = new CharacterModel();
+    protected async override Task OnInitializedAsync()
+    {
+        await CharacterSelectionService.GetCharacterList();
+    }
+    public void CharacterRow_Click(CharacterModel Charcater)
+    {
+        Console.WriteLine("cool");
+    }
+    public void CharacterRow_DblClick(CharacterModel Charcater)
+    {
+        NavigationManager.NavigateTo("CharacterSheet/" + SelectedCharacter.Id.ToString());
+    }
+    public void NewCharacter_Click()
+    {
+        NavigationManager.NavigateTo("CharacterSheet/0");
+    }
+}

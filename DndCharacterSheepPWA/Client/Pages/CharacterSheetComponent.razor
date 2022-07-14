@@ -1,0 +1,106 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@page "/CharacterSheet/{Id:int}"
+@inject ICharacterSheet CharacterSheetService
+@inject NavigationManager NavigationManager
+
+
+<h3>Character Sheet</h3>
+<button @onclick="() => { Edit_Click();}">Edit</button>
+<button @onclick="() => { Save_Click();}">Save</button>
+<button @onclick="() => { Load_Click();}">Load</button>
+<div>Name</div>
+<input @ref=CName            readonly=@IsClean @bind-value="@Character.Name"/>
+<div>Level</div>
+<textarea @ref=CLevel        readonly=@IsClean>@Character.Level</textarea>
+<div>MaxHitPoints</div>
+<textarea @ref=CMaxHitPoints readonly=@IsClean>@Character.MaxHitPoints</textarea>
+<div>Strength</div>
+<textarea @ref=CStrength     readonly=@IsClean>@Character.Strength</textarea>
+<div>Dexterity</div>
+<textarea @ref=CDexterity    readonly=@IsClean>@Character.Dexterity</textarea>
+<div>Constituion</div>
+<textarea @ref=CConstituion  readonly=@IsClean>@Character.Constituion</textarea>
+<div>Intelligence</div>
+<textarea @ref=CIntelligence readonly=@IsClean>@Character.Intelligence</textarea>
+<div>Wisdom</div>
+<textarea @ref=CWisdom       readonly=@IsClean>@Character.Wisdom</textarea>
+<div>Charisma</div>            
+<textarea @ref=CCharisma     readonly=@IsClean>@Character.Charisma</textarea>
+<div>Alignment</div>           
+<input @ref=CAlignment  value="@Character.Alignment"  readonly=@IsClean />
+<div>Class</div>               
+<textarea @ref=CClass        readonly=@IsClean>@Character.Class</textarea>
+<div>Race</div>                
+<textarea @ref=CRace         readonly=@IsClean>@Character.Race</textarea>
+<div>Background</div>          
+<textarea @ref=CBackground   readonly=@IsClean>@Character.Background</textarea>
+<div>Gold</div>                
+<textarea @ref=CGold         readonly=@IsClean>@Character.Gold</textarea>
+<div>Speed</div>               
+<textarea @ref=CSpeed        readonly=@IsClean>@Character.Speed</textarea>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public bool IsNew { get; set; }
+    public bool IsClean { get; set; }
+    private CharacterModel? _character { get; set; }
+    public CharacterModel Character { get; set; }
+    public List<CharacterModel> Characters { get; set; }
+    ElementReference CName         ;
+    ElementReference CLevel        ;
+    ElementReference CMaxHitPoints ;
+    ElementReference CStrength     ;
+    ElementReference CDexterity    ;
+    ElementReference CConstituion  ;
+    ElementReference CIntelligence ;
+    ElementReference CWisdom       ;
+    ElementReference CCharisma     ;
+    ElementReference CAlignment    ;
+    ElementReference CClass        ;
+    ElementReference CRace         ;
+    ElementReference CBackground   ;
+    ElementReference CGold         ;
+    ElementReference CSpeed        ;
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id == 0)
+        {
+            IsNew = true;
+            IsClean = false;
+        }
+        else
+        {
+            IsClean = true;
+        }
+        Character = new CharacterModel();
+        await CharacterSheetService.GetCharacterList();
+    }
+    public void Edit_Click()
+    {
+        IsClean = false;
+    }
+    //TODO Cover for duplicate names
+    public void Save_Click()
+    {
+        if (!IsClean)
+        {
+            if (IsNew)
+            {
+                CharacterSheetService.PostCharacter(Character);
+            }
+            IsClean = true;
+        }
+    }
+    public void Load_Click()
+    {
+        Character = CharacterSheetService.Characters.FirstOrDefault(x => x.Id == Id);
+        IsClean = true;
+    }
+}
